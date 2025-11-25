@@ -3,10 +3,9 @@ set -e
 
 echo "[*] Restoring systemd-resolved..."
 
-# Remove temporary resolv.conf
+# Removing temporary resolv.conf
 sudo rm -f /etc/resolv.conf
 
-# Restore the symlink
 echo "[+] Restoring /etc/resolv.conf symlink..."
 sudo ln -s /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 

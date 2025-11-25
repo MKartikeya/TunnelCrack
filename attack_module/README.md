@@ -11,6 +11,8 @@ First make all files executable by running
 sudo chmod +x *
 ```
 
+# Attack Module
+
 #### Attack scripts (AP side)
 For running the attack, just run ap-config.py with root permissions. 
 ```bash
