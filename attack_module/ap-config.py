@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import subprocess, re, json, sys, os, time, socket
 
-class UnifiedAPConfig:
+class APConfig:
     def __init__(self):
         self.wifi = None
         self.eth = None
@@ -221,7 +221,7 @@ def main():
     if os.geteuid() != 0:
         print("Run as root.")
         sys.exit(1)
-    c = UnifiedAPConfig()
+    c = APConfig()
     c.setup()
     c.hostapd()
     c.dnsmasq()

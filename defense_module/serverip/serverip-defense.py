@@ -65,8 +65,8 @@ class DNSSpoofDetector:
 
                 print("  [2/2] Querying trusted DNS...")
                 if method == '1':
-                    # trusted_ip = self._query_doh_cloudflare(hostname)
-                    trusted_ip = self._query_doh_google(hostname)
+                    trusted_ip = self._query_doh_cloudflare(hostname)
+                    # trusted_ip = self._query_doh_google(hostname)
                 elif method == '2':
                     trusted_ip = self._query_doh_google(hostname)
                 elif method == '3':

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import subprocess, json, sys, os, time, signal, re
 
-class MaliciousAPAttack:
+class LocalNetAttack:
     def __init__(self, config_file="/tmp/evil.json"):
         try:
             with open(config_file, 'r') as f:
@@ -181,4 +181,4 @@ if __name__ == "__main__":
         print("Run as root")
         sys.exit(1)
 
-    MaliciousAPAttack().start()
+    LocalNetAttack().start()

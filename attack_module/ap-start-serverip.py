@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import subprocess, json, sys, os, time, signal, re
 
-class MaliciousAPAttack:
+class ServerIPAttack:
     def __init__(self, config="/tmp/evil.json"):
         with open(config) as f:
             self.c = json.load(f)
@@ -138,4 +138,4 @@ class MaliciousAPAttack:
 if __name__ == "__main__":
     if os.geteuid() != 0:
         print("[!] Run as root"); sys.exit(1)
-    MaliciousAPAttack().start()
+    ServerIPAttack().start()

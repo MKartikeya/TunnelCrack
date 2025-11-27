@@ -239,9 +239,12 @@ def mode_disable_local_traffic(vpn_if, trusted_cidrs, mgmt_if):
     chain = "TC_DISABLE_LOCAL"
     ensure_chain(chain)
     
+    #keeping all loopback traffic
     add_rule(chain, "-o lo -j ACCEPT")
+    #keeping the traffic of any existing connection
     add_rule(chain, "-m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT")
     
+    #allowing any packets that go out that VPN interface
     if vpn_if:
         add_rule(chain, f"-o {shlex_q(vpn_if)} -j ACCEPT")
     
@@ -253,21 +256,25 @@ def mode_disable_local_traffic(vpn_if, trusted_cidrs, mgmt_if):
                 for i, p in enumerate(parts):
                     if p == "inet" and i + 1 < len(parts):
                         cidr = parts[i + 1]
+                        #allowing all vpn related rules
                         if mgmt_if == vpn_if:
                             add_rule(chain, f"-d {shlex_q(cidr)} -j ACCEPT")
         except Exception:
             pass
     
-    for cidr in trusted_cidrs:
-        add_rule(chain, f"-d {shlex_q(cidr)} -j ACCEPT")
     
     for cidr in RFC1918 + [LINK_LOCAL]:
-        add_rule(chain, f"-d {shlex_q(cidr)} -j DROP")
+        if subnet not in trusted_cidrs:
+            add_rule(chain, f"-d {shlex_q(cidr)} -j DROP")
     
     local_subnets = get_local_subnets(vpn_if)
     for subnet in local_subnets:
-        add_rule(chain, f"-d {shlex_q(subnet)} -j DROP")
+        if subnet not in trusted_cidrs:
+            add_rule(chain, f"-d {shlex_q(subnet)} -j DROP")
     
+    #allowing other trusted ones
+    for cidr in trusted_cidrs:
+        add_rule(chain, f"-d {shlex_q(cidr)} -j ACCEPT")
     insert_jump_once(chain, position=1)
 
 def mode_filter_rfc1918_only(vpn_if):

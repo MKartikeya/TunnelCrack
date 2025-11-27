@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-"""
-TunnelCrack Detection Suite
-"""
-
 import subprocess
 import re
 import ipaddress
